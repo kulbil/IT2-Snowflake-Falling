@@ -1,4 +1,5 @@
 let snowflake
+let intervalID
 let snowflakeEl = document.getElementsByClassName("snowflake")
 function createSnow() {
     snowflake = new snow(100, 0)
@@ -17,7 +18,11 @@ let currentSnowHeight = snowflake.y
 function snowFall() {
     snowflakeEl[0].style.top = currentSnowHeight + "px";
     currentSnowHeight += 10;
+    if(currentSnowHeight > window.innerHeight - 100) {
+        clearInterval(intervalID)
+        console.log("STOPPPPP")
+    }
 }
-setInterval(snowFall, 1)
+intervalID = setInterval(snowFall, 1)
 
 console.log(snowflake)
