@@ -1,28 +1,46 @@
-let snowflake
-let intervalID
+let snowflakes = []
 let snowflakeEl = document.getElementsByClassName("snowflake")
-function createSnow() {
-    snowflake = new snow(100, 0)
+
+
+function createSnow(x, y) {
+
+    let currentSnowflake = new snow(x, y)
+    snowflakes.push(currentSnowflake)
 
     var snowConst = $('<img></img>');
     snowConst.attr("class", "snowflake");
-    snowConst.attr("top", snowflake.y);
-    snowConst.attr("left", snowflake.x);
-    snowConst.attr("src", snowflake.src)
+    snowConst.css("top", currentSnowflake.y + "px");
+    snowConst.css("left", currentSnowflake.x + "px");
+    snowConst.attr("src", currentSnowflake.src)
     $("#snowList").append(snowConst);
+
+    console.log(snowflakes)
+
 }
-createSnow()
 
 
-let currentSnowHeight = snowflake.y
+
+createSnow(Math.floor(Math.random() * window.innerWidth), 0)
+createSnow(Math.floor(Math.random() * window.innerWidth), 300)
+createSnow(Math.floor(Math.random() * window.innerWidth), 0)
+
+
+
 function snowFall() {
-    snowflakeEl[0].style.top = currentSnowHeight + "px";
-    currentSnowHeight += 10;
-    if(currentSnowHeight > window.innerHeight - 100) {
-        clearInterval(intervalID)
-        console.log("STOPPPPP")
-    }
-}
-intervalID = setInterval(snowFall, 1)
+    for(let i = 0; i < snowflakes.length; i++) {
+        
+        let currentSnowHeight = parseInt(snowflakeEl[i].style.top, 10)
+        currentSnowHeight += 100
+        console.log(currentSnowHeight)
 
-console.log(snowflake)
+        if (currentSnowHeight < window.innerHeight - 100) {
+            snowflakeEl[i].style.top = currentSnowHeight + "px"
+        } else if (currentSnowHeight >= window.innerHeight - 100) {
+            snowflakes.splice(i, 1)
+        }
+    }
+    console.log(snowflakes)
+}
+
+setInterval(snowFall, 1000 )
+console.log(snowflakes)
